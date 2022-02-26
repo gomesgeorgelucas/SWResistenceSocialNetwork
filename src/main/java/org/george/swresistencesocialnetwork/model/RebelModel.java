@@ -12,7 +12,7 @@ import java.util.Collection;
 @Builder (toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Rebel {
+public class RebelModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Integer id;
@@ -23,5 +23,5 @@ public class Rebel {
     Double longitude;
     BaseEnum base;
     @OneToMany
-    Collection<Item> inventory;
+    Collection<ItemModel> inventory;
 }

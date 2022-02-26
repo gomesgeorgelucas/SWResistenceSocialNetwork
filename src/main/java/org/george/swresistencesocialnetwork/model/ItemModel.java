@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item {
+public class ItemModel {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
     ItemTypeEnum itemType;
     @ManyToOne
-    Rebel rebel;
+    RebelModel rebel;
 
 }
