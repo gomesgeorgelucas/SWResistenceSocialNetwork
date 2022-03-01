@@ -1,13 +1,11 @@
 package org.george.swresistencesocialnetwork.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDTO {
