@@ -13,6 +13,8 @@ import org.george.swresistencesocialnetwork.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -50,5 +52,33 @@ public class RebelService {
 
     public RebelModel getRebel(Long id) {
         return rebelRepository.findById(id).get();
+    }
+
+    public RebelModel updateInventory(Long id, Collection<ItemDTO> inventory) {
+        RebelModel rebel = rebelRepository.findById(id).get();
+
+        for (ItemDTO itemDTO : inventory) {
+            rebel.getInventory().add(
+                    ItemModel.builder()
+                            .itemType(itemDTO.getItemType())
+                            .rebel(rebel).build()
+            );
+        }
+
+        return rebel;
+    }
+
+    public RebelModel removeItems(Long id, Collection<ItemDTO> list) {
+        RebelModel rebel = rebelRepository.findById(id).get();
+
+        for (ItemModel itemModel : rebel.getInventory()) {
+            for(ItemDTO itemDTO : list)
+                if (itemModel.getItemType().getName().equalsIgnoreCase(itemDTO.getItemType().getName())) {
+                    rebel.getInventory().remove(itemModel);
+                    list.remove(itemDTO);
+                    break;
+                }
+        }
+        return rebel;
     }
 }
