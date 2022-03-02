@@ -54,6 +54,9 @@ public class SWSocialController {
     public ResponseEntity<ReportDTO> reportSuspect(@RequestBody ReportDTO reportDTO) {
         RebelModel suspect = rebelService.getRebel(reportDTO.getSuspectId());
         RebelModel accuser = rebelService.getRebel(reportDTO.getAccuserId());
+        if (suspect.getId() == accuser.getId()) {
+            return new ResponseEntity<>(reportDTO, HttpStatus.BAD_REQUEST);
+        }
         reportService.report(suspect, accuser);
         return new ResponseEntity<>(reportDTO, HttpStatus.OK);
     }
