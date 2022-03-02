@@ -16,7 +16,7 @@ import java.util.Collection;
 public class RebelModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-            @Column(name = "rebel_id")
+    @Column(name = "rebel_id")
     Long id;
     String name;
     Integer age;

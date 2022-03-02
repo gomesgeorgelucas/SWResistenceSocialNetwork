@@ -1,4 +1,4 @@
 package org.george.swresistencesocialnetwork.dto;
 
-public class ExchangeItemsDTO {
+public class ExchangeDTO {
 }

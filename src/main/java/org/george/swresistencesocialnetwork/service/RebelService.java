@@ -3,10 +3,13 @@ package org.george.swresistencesocialnetwork.service;
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.RebelDTO;
-import org.george.swresistencesocialnetwork.dto.UpdateLocationDTO;
+import org.george.swresistencesocialnetwork.dto.ReportDTO;
+import org.george.swresistencesocialnetwork.dto.LocationDTO;
 import org.george.swresistencesocialnetwork.model.ItemModel;
 import org.george.swresistencesocialnetwork.model.RebelModel;
+import org.george.swresistencesocialnetwork.model.ReportModel;
 import org.george.swresistencesocialnetwork.repository.RebelRepository;
+import org.george.swresistencesocialnetwork.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,11 +40,15 @@ public class RebelService {
         return rebelRepository.save(rebel);
     }
 
-    public RebelModel updateLocation(Long id, UpdateLocationDTO updateLocationDTO) {
+    public RebelModel updateLocation(Long id, LocationDTO updateLocationDTO) {
         RebelModel rebel = rebelRepository.findById(id).get();
         rebel.setLatitude(updateLocationDTO.getLatitude());
         rebel.setLongitude(updateLocationDTO.getLongitude());
         rebel.setBase(updateLocationDTO.getBase());
         return rebelRepository.save(rebel);
+    }
+
+    public RebelModel getRebel(Long id) {
+        return rebelRepository.findById(id).get();
     }
 }

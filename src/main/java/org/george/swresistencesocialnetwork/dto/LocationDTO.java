@@ -8,7 +8,7 @@ import org.george.swresistencesocialnetwork.enums.BaseEnum;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateLocationDTO {
+public class LocationDTO {
     Double latitude;
     Double longitude;
     BaseEnum base;

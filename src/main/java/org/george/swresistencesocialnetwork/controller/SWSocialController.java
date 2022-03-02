@@ -3,10 +3,12 @@ package org.george.swresistencesocialnetwork.controller;
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.RebelDTO;
-import org.george.swresistencesocialnetwork.dto.UpdateLocationDTO;
+import org.george.swresistencesocialnetwork.dto.ReportDTO;
+import org.george.swresistencesocialnetwork.dto.LocationDTO;
 import org.george.swresistencesocialnetwork.model.ItemModel;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.service.RebelService;
+import org.george.swresistencesocialnetwork.service.ReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class SWSocialController {
 
     RebelService rebelService;
+    ReportService reportService;
 
     @PostMapping("/addRebel")
     public ResponseEntity<RebelDTO> addRebel(@RequestBody RebelDTO rebelDTO) {
@@ -27,7 +30,7 @@ public class SWSocialController {
     }
 
     @PutMapping("/updateLocation/{id}")
-    public ResponseEntity<RebelDTO> updateLocation(@PathVariable Long id, @RequestBody UpdateLocationDTO updateLocationDTO) {
+    public ResponseEntity<RebelDTO> updateLocation(@PathVariable Long id, @RequestBody LocationDTO updateLocationDTO) {
         RebelModel rebel = rebelService.updateLocation(id, updateLocationDTO);
         RebelDTO rebelDTO = RebelDTO.builder()
                 .name(rebel.getName())
@@ -45,6 +48,14 @@ public class SWSocialController {
         rebelDTO.setInventory(items);
 
         return new ResponseEntity<>(rebelDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/reportSuspect")
+    public ResponseEntity<ReportDTO> reportSuspect(@RequestBody ReportDTO reportDTO) {
+        RebelModel suspect = rebelService.getRebel(reportDTO.getSuspectId());
+        RebelModel accuser = rebelService.getRebel(reportDTO.getAccuserId());
+        reportService.report(suspect, accuser);
+        return new ResponseEntity<>(reportDTO, HttpStatus.OK);
     }
 
 }
