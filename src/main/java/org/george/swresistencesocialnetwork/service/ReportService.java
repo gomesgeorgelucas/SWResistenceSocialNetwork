@@ -26,4 +26,12 @@ public class ReportService {
 
         return reportRepository.save(report);
     }
+
+    public boolean isBlocked(Long id) {
+        if (reportRepository.findBySuspectId(id).size() >= 3) {
+            return true;
+        }
+
+        return false;
+    }
 }

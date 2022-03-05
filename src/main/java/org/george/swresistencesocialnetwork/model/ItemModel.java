@@ -4,6 +4,7 @@ import lombok.*;
 import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "item")
@@ -20,4 +21,16 @@ public class ItemModel {
     @JoinColumn(name = "rebel_id")
     RebelModel rebel;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ItemModel)) return false;
+        ItemModel itemModel = (ItemModel) o;
+        return this.hashCode() == itemModel.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemType);
+    }
 }

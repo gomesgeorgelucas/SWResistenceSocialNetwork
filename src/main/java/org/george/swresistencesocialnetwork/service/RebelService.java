@@ -1,20 +1,17 @@
 package org.george.swresistencesocialnetwork.service;
 
 import lombok.AllArgsConstructor;
+import org.george.swresistencesocialnetwork.converts.ItemModelDTO;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.RebelDTO;
-import org.george.swresistencesocialnetwork.dto.ReportDTO;
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
 import org.george.swresistencesocialnetwork.model.ItemModel;
 import org.george.swresistencesocialnetwork.model.RebelModel;
-import org.george.swresistencesocialnetwork.model.ReportModel;
 import org.george.swresistencesocialnetwork.repository.RebelRepository;
-import org.george.swresistencesocialnetwork.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -54,10 +51,10 @@ public class RebelService {
         return rebelRepository.findById(id).get();
     }
 
-    public RebelModel updateInventory(Long id, Collection<ItemDTO> inventory) {
+    public RebelModel updateInventory(Long id, Collection<ItemDTO> toAddList) {
         RebelModel rebel = rebelRepository.findById(id).get();
 
-        for (ItemDTO itemDTO : inventory) {
+        for (ItemDTO itemDTO : toAddList) {
             rebel.getInventory().add(
                     ItemModel.builder()
                             .itemType(itemDTO.getItemType())
@@ -68,17 +65,44 @@ public class RebelService {
         return rebel;
     }
 
-    public RebelModel removeItems(Long id, Collection<ItemDTO> list) {
+    public RebelModel updateInventory(Long id, Collection<ItemDTO> toRemoveList, Collection<ItemDTO> toAddList) {
         RebelModel rebel = rebelRepository.findById(id).get();
 
-        for (ItemModel itemModel : rebel.getInventory()) {
-            for(ItemDTO itemDTO : list)
-                if (itemModel.getItemType().getName().equalsIgnoreCase(itemDTO.getItemType().getName())) {
-                    rebel.getInventory().remove(itemModel);
-                    list.remove(itemDTO);
-                    break;
-                }
+//        if (toRemoveList != null) {
+//            Collection<ItemModel> itemsRebel = rebel.getInventory();
+//            Collection<ItemModel> itemsToRemove = new ItemModelDTO().convert(rebel, toRemoveList);
+//            for (ItemModel item : itemsToRemove) {
+//                if (itemsRebel.contains(item)) {
+//                    itemsRebel.remove(item);
+//                }
+//            }
+//            rebel.setInventory(itemsRebel);
+//
+//        }
+
+        for (ItemDTO itemDTO : toAddList) {
+            rebel.getInventory().add(
+                    ItemModel.builder()
+                            .itemType(itemDTO.getItemType())
+                            .rebel(rebel).build()
+            );
         }
+
+        rebelRepository.save(rebel);
+
+        return rebel;
+    }
+
+    public RebelModel removeItems(Long id, Collection<ItemDTO> list) {
+        RebelModel rebel = rebelRepository.findById(id).get();
+        Collection<ItemModel> itemsRebel = rebel.getInventory();
+        Collection<ItemModel> itemsToRemove = new ItemModelDTO().convert(rebel, list);
+        for (ItemModel item : itemsToRemove) {
+            itemsRebel.remove(item);
+        }
+
+        rebel.setInventory(new ArrayList<>());
+
         return rebel;
     }
 }

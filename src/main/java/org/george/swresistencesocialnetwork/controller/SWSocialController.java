@@ -1,9 +1,11 @@
 package org.george.swresistencesocialnetwork.controller;
 
 import lombok.AllArgsConstructor;
+import org.george.swresistencesocialnetwork.converts.ItemModelDTO;
 import org.george.swresistencesocialnetwork.dto.*;
 import org.george.swresistencesocialnetwork.model.ItemModel;
 import org.george.swresistencesocialnetwork.model.RebelModel;
+import org.george.swresistencesocialnetwork.service.ItemService;
 import org.george.swresistencesocialnetwork.service.RebelService;
 import org.george.swresistencesocialnetwork.service.ReportService;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ public class SWSocialController {
 
     RebelService rebelService;
     ReportService reportService;
+    ItemService itemService;
 
     @PostMapping("/addRebel")
     public ResponseEntity<RebelDTO> addRebel(@RequestBody RebelDTO rebelDTO) {
@@ -59,42 +62,66 @@ public class SWSocialController {
         return new ResponseEntity<>(reportDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/exchange")
-    public ResponseEntity<ExchangeDTO> exchangeItems(@RequestBody ExchangeDTO exchangeDTO) {
-        return null;
+    @PostMapping("/trade")
+    public ResponseEntity<TradeDTO> trade(@RequestBody TradeDTO tradeDTO) {
+        if (tryTrade(tradeDTO)) {
+            return new ResponseEntity<>(tradeDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(tradeDTO, HttpStatus.BAD_REQUEST);
     }
 
     /**
      * Checks if both lists have the same amount of points total.
-     * @param exchangeDTO DTO containing transaction data.
+     * @param tradeDTO DTO containing transaction data.
      * @return true or false
      */
-    private boolean tryExchange(ExchangeDTO exchangeDTO) {
+    private boolean tryTrade(TradeDTO tradeDTO) {
         if (
-                isBlocked(exchangeDTO.getFistRebelId())
-                        || isBlocked(exchangeDTO.getSecondRebelId())
+                isBlocked(tradeDTO.getFirstRebelId())
+                        || isBlocked(tradeDTO.getSecondRebelId())
         ) {
             return false;
         }
 
         if (
-                isListInvalid(exchangeDTO.getFistRebelId(), exchangeDTO.getFirstRebelItems())
-                        || isListInvalid(exchangeDTO.getSecondRebelId(), exchangeDTO.getSecondRebelItems())
+                isListInvalid(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems())
+                        || isListInvalid(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems())
         ) {
             return false;
         }
 
-        if (!getPoints(exchangeDTO.getFirstRebelItems()).equals(getPoints(exchangeDTO.getSecondRebelItems()))) {
+        if (!getPoints(tradeDTO.getFirstRebelItems()).equals(getPoints(tradeDTO.getSecondRebelItems()))) {
              return false;
         }
 
-        rebelService.removeItems(exchangeDTO.getFistRebelId(), exchangeDTO.getFirstRebelItems());
-        rebelService.removeItems(exchangeDTO.getSecondRebelId(), exchangeDTO.getSecondRebelItems());
-
-        rebelService.updateInventory(exchangeDTO.getFistRebelId(), exchangeDTO.getSecondRebelItems());
-        rebelService.updateInventory(exchangeDTO.getSecondRebelId(), exchangeDTO.getFirstRebelItems());
+        doTrade(tradeDTO);
 
         return true;
+    }
+
+    private void doTrade(TradeDTO tradeDTO) {
+        rebelService.removeItems(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems());
+
+
+      //  itemService.remove(rebelService.getRebel(tradeDTO.getFirstRebelId()), tradeDTO.getFirstRebelItems());
+   //    itemService.remove(rebelService.getRebel(tradeDTO.getSecondRebelId()), tradeDTO.getSecondRebelItems());
+
+//        rebelService.updateInventory(
+//                tradeDTO.getFirstRebelId(),
+//                tradeDTO.getFirstRebelItems(),
+//                tradeDTO.getSecondRebelItems()
+//        );
+//        rebelService.updateInventory(
+//                tradeDTO.getSecondRebelId(),
+//                tradeDTO.getSecondRebelItems(),
+//                tradeDTO.getFirstRebelItems()
+//        );
+
+//        rebelService.removeItems(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems());
+//        rebelService.removeItems(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems());
+//
+//        rebelService.updateInventory(tradeDTO.getFirstRebelId(), tradeDTO.getSecondRebelItems());
+//        rebelService.updateInventory(tradeDTO.getSecondRebelId(), tradeDTO.getFirstRebelItems());
     }
 
     /**
@@ -103,7 +130,7 @@ public class SWSocialController {
      * @return true or false
      */
     private boolean isBlocked(Long id) {
-        return true;
+        return reportService.isBlocked(id);
     }
 
     /**
@@ -112,7 +139,13 @@ public class SWSocialController {
      * @return Integer value representing total amount.
      */
     private Integer getPoints(Collection<ItemDTO> itemsList) {
-        return 0;
+        Integer points = 0;
+
+        for (ItemDTO item: itemsList) {
+            points += item.getItemType().getValue();
+        }
+
+        return points;
     }
 
     /**
@@ -122,8 +155,8 @@ public class SWSocialController {
      * @return true or false
      */
     private boolean isListInvalid(Long id, Collection<ItemDTO> itemsList) {
-        return true;
-
+        RebelModel rebel = rebelService.getRebel(id);
+        return !rebel.getInventory().containsAll(new ItemModelDTO().convert(rebel, itemsList));
     }
 
 

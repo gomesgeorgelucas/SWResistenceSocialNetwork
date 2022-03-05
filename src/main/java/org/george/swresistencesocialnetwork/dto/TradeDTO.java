@@ -9,8 +9,8 @@ import java.util.Collection;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExchangeDTO {
-    Long fistRebelId;
+public class TradeDTO {
+    Long firstRebelId;
     Collection<ItemDTO> firstRebelItems;
     Long secondRebelId;
     Collection<ItemDTO> secondRebelItems;
