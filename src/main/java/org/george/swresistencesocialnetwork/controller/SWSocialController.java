@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/swapi")
@@ -24,13 +26,13 @@ public class SWSocialController {
     ReportService reportService;
 
     @PostMapping("/addRebel")
-    public ResponseEntity<RebelDTO> addRebel(@RequestBody RebelDTO rebelDTO) {
+    public ResponseEntity<RebelDTO> addRebel(@Valid @RequestBody RebelDTO rebelDTO) {
         rebelService.addRebel(rebelDTO);
         return new ResponseEntity<>(rebelDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateLocation/{id}")
-    public ResponseEntity<RebelDTO> updateLocation(@PathVariable Long id, @RequestBody LocationDTO updateLocationDTO) {
+    public ResponseEntity<RebelDTO> updateLocation(@PathVariable Long id, @Valid @RequestBody LocationDTO updateLocationDTO) {
         RebelModel rebel = rebelService.updateLocation(id, updateLocationDTO);
         RebelDTO rebelDTO = RebelDTO.builder()
                 .name(rebel.getName())
@@ -48,10 +50,10 @@ public class SWSocialController {
     }
 
     @PostMapping("/reportSuspect")
-    public ResponseEntity<ReportDTO> reportSuspect(@RequestBody ReportDTO reportDTO) {
+    public ResponseEntity<ReportDTO> reportSuspect(@Valid @RequestBody ReportDTO reportDTO) {
         RebelModel suspect = rebelService.getRebel(reportDTO.getSuspectId());
         RebelModel accuser = rebelService.getRebel(reportDTO.getAccuserId());
-        if (suspect.getId() == accuser.getId()) {
+        if (Objects.equals(suspect.getId(), accuser.getId())) {
             return new ResponseEntity<>(reportDTO, HttpStatus.BAD_REQUEST);
         }
         reportService.report(suspect, accuser);
@@ -59,7 +61,7 @@ public class SWSocialController {
     }
 
     @PostMapping("/trade")
-    public ResponseEntity<TradeDTO> trade(@RequestBody TradeDTO tradeDTO) {
+    public ResponseEntity<TradeDTO> trade(@Valid @RequestBody TradeDTO tradeDTO) {
         if (tryTrade(tradeDTO)) {
             return new ResponseEntity<>(tradeDTO, HttpStatus.OK);
         }

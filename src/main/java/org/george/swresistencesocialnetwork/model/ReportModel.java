@@ -3,19 +3,20 @@ package org.george.swresistencesocialnetwork.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "report")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportModel {
-    @Id
-    @Column(name = "suspect_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long suspectId;
+
     @ElementCollection
+    @NotNull
     Set<Long> accusers = new HashSet<>();
 }
