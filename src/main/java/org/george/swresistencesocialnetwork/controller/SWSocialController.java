@@ -25,6 +25,8 @@ public class SWSocialController {
     @Autowired
     ReportService reportService;
 
+    //TODO - Jsonnullable Etc JsonIgnor etc
+
     @PostMapping("/addRebel")
     public ResponseEntity<RebelDTO> addRebel(@Valid @RequestBody RebelDTO rebelDTO) {
         rebelService.addRebel(rebelDTO);
