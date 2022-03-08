@@ -1,13 +1,13 @@
 package org.george.swresistencesocialnetwork.service;
 
 import lombok.AllArgsConstructor;
-import org.george.swresistencesocialnetwork.converts.ItemModelDTO;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.RebelDTO;
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
-import org.george.swresistencesocialnetwork.model.ItemModel;
+import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.repository.RebelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.Collection;
 @Service
 @AllArgsConstructor
 public class RebelService {
+    @Autowired
     final RebelRepository rebelRepository;
 
     public RebelModel addRebel(RebelDTO rebelDTO) {
@@ -28,12 +29,9 @@ public class RebelService {
         rebel.setBase(rebelDTO.getBase());
 
         rebel.setInventory(new ArrayList<>());
+
         for (ItemDTO itemDTO : rebelDTO.getInventory()) {
-            rebel.getInventory().add(
-                    ItemModel.builder()
-                            .itemType(itemDTO.getItemType())
-                            .rebel(rebel).build()
-            );
+            rebel.getInventory().add(itemDTO.getItemType());
         }
 
         return rebelRepository.save(rebel);
@@ -51,58 +49,28 @@ public class RebelService {
         return rebelRepository.findById(id).get();
     }
 
-    public RebelModel updateInventory(Long id, Collection<ItemDTO> toAddList) {
-        RebelModel rebel = rebelRepository.findById(id).get();
+    public RebelModel updateInventory(Long id, Collection<ItemDTO> itemsToRemove, Collection<ItemDTO> itemsToAdd) {
+        RebelModel rebel = rebelRepository.getById(id);
 
-        for (ItemDTO itemDTO : toAddList) {
-            rebel.getInventory().add(
-                    ItemModel.builder()
-                            .itemType(itemDTO.getItemType())
-                            .rebel(rebel).build()
-            );
+        Collection<ItemTypeEnum> itemTypesToRemove = new ArrayList<>();
+        Collection<ItemTypeEnum> itemTypesToAdd = new ArrayList<>();
+
+        for (ItemDTO item : itemsToRemove) {
+            itemTypesToRemove.add(item.getItemType());
         }
 
-        return rebel;
-    }
-
-    public RebelModel updateInventory(Long id, Collection<ItemDTO> toRemoveList, Collection<ItemDTO> toAddList) {
-        RebelModel rebel = rebelRepository.findById(id).get();
-
-//        if (toRemoveList != null) {
-//            Collection<ItemModel> itemsRebel = rebel.getInventory();
-//            Collection<ItemModel> itemsToRemove = new ItemModelDTO().convert(rebel, toRemoveList);
-//            for (ItemModel item : itemsToRemove) {
-//                if (itemsRebel.contains(item)) {
-//                    itemsRebel.remove(item);
-//                }
-//            }
-//            rebel.setInventory(itemsRebel);
-//
-//        }
-
-        for (ItemDTO itemDTO : toAddList) {
-            rebel.getInventory().add(
-                    ItemModel.builder()
-                            .itemType(itemDTO.getItemType())
-                            .rebel(rebel).build()
-            );
+        for (ItemTypeEnum item : itemTypesToRemove) {
+            rebel.getInventory().remove(item);
         }
 
         rebelRepository.save(rebel);
 
-        return rebel;
-    }
-
-    public RebelModel removeItems(Long id, Collection<ItemDTO> list) {
-        RebelModel rebel = rebelRepository.findById(id).get();
-        Collection<ItemModel> itemsRebel = rebel.getInventory();
-        Collection<ItemModel> itemsToRemove = new ItemModelDTO().convert(rebel, list);
-        for (ItemModel item : itemsToRemove) {
-            itemsRebel.remove(item);
+        for (ItemDTO item : itemsToAdd) {
+            itemTypesToAdd.add(item.getItemType());
         }
 
-        rebel.setInventory(new ArrayList<>());
+        rebel.getInventory().addAll(itemTypesToAdd);
 
-        return rebel;
+        return rebelRepository.save(rebel);
     }
 }

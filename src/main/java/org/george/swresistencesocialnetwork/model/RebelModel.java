@@ -2,12 +2,12 @@ package org.george.swresistencesocialnetwork.model;
 
 import lombok.*;
 import org.george.swresistencesocialnetwork.enums.BaseEnum;
+import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name="rebel")
 @Getter
 @Setter
 @Builder
@@ -16,7 +16,6 @@ import java.util.Collection;
 public class RebelModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rebel_id")
     Long id;
     String name;
     Integer age;
@@ -24,6 +23,7 @@ public class RebelModel {
     Double latitude;
     Double longitude;
     BaseEnum base;
-    @OneToMany (mappedBy = "rebel", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    Collection<ItemModel> inventory;
+
+    @ElementCollection
+    Collection<ItemTypeEnum> inventory;
 }

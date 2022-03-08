@@ -1,13 +1,12 @@
 package org.george.swresistencesocialnetwork.controller;
 
 import lombok.AllArgsConstructor;
-import org.george.swresistencesocialnetwork.converts.ItemModelDTO;
 import org.george.swresistencesocialnetwork.dto.*;
-import org.george.swresistencesocialnetwork.model.ItemModel;
+import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.model.RebelModel;
-import org.george.swresistencesocialnetwork.service.ItemService;
 import org.george.swresistencesocialnetwork.service.RebelService;
 import org.george.swresistencesocialnetwork.service.ReportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +18,10 @@ import java.util.Collection;
 @RequestMapping("/swapi")
 @AllArgsConstructor
 public class SWSocialController {
-
+    @Autowired
     RebelService rebelService;
+    @Autowired
     ReportService reportService;
-    ItemService itemService;
 
     @PostMapping("/addRebel")
     public ResponseEntity<RebelDTO> addRebel(@RequestBody RebelDTO rebelDTO) {
@@ -43,9 +42,6 @@ public class SWSocialController {
                 .build();
 
         ArrayList<ItemDTO> items = new ArrayList<>();
-        for (ItemModel item : rebel.getInventory()) {
-            items.add(new ItemDTO(item.getItemType()));
-        }
         rebelDTO.setInventory(items);
 
         return new ResponseEntity<>(rebelDTO, HttpStatus.OK);
@@ -99,29 +95,9 @@ public class SWSocialController {
         return true;
     }
 
-    private void doTrade(TradeDTO tradeDTO) {
-        rebelService.removeItems(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems());
-
-
-      //  itemService.remove(rebelService.getRebel(tradeDTO.getFirstRebelId()), tradeDTO.getFirstRebelItems());
-   //    itemService.remove(rebelService.getRebel(tradeDTO.getSecondRebelId()), tradeDTO.getSecondRebelItems());
-
-//        rebelService.updateInventory(
-//                tradeDTO.getFirstRebelId(),
-//                tradeDTO.getFirstRebelItems(),
-//                tradeDTO.getSecondRebelItems()
-//        );
-//        rebelService.updateInventory(
-//                tradeDTO.getSecondRebelId(),
-//                tradeDTO.getSecondRebelItems(),
-//                tradeDTO.getFirstRebelItems()
-//        );
-
-//        rebelService.removeItems(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems());
-//        rebelService.removeItems(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems());
-//
-//        rebelService.updateInventory(tradeDTO.getFirstRebelId(), tradeDTO.getSecondRebelItems());
-//        rebelService.updateInventory(tradeDTO.getSecondRebelId(), tradeDTO.getFirstRebelItems());
+    public void doTrade(TradeDTO tradeDTO) {
+        rebelService.updateInventory(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems(), tradeDTO.getSecondRebelItems());
+        rebelService.updateInventory(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems(), tradeDTO.getFirstRebelItems());
     }
 
     /**
@@ -155,8 +131,16 @@ public class SWSocialController {
      * @return true or false
      */
     private boolean isListInvalid(Long id, Collection<ItemDTO> itemsList) {
-        RebelModel rebel = rebelService.getRebel(id);
-        return !rebel.getInventory().containsAll(new ItemModelDTO().convert(rebel, itemsList));
+        return !rebelService.getRebel(id).getInventory().containsAll(itemDTOToItemTypeEnum(itemsList));
+    }
+
+    private Collection<ItemTypeEnum> itemDTOToItemTypeEnum(Collection<ItemDTO> itemDTOList) {
+        Collection<ItemTypeEnum> itemTypeEnums = new ArrayList<>();
+        for (ItemDTO item: itemDTOList) {
+            itemTypeEnums.add(item.getItemType());
+        }
+
+        return itemTypeEnums;
     }
 
 
