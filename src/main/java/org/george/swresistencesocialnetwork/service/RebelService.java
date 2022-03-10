@@ -5,6 +5,7 @@ import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.RebelDTO;
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
 import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.exception.InvalidRequestException;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.repository.RebelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class RebelService {
     final RebelRepository rebelRepository;
 
     public RebelModel addRebel(RebelDTO rebelDTO) {
+        if (rebelDTO == null) {
+            throw new InvalidRequestException();
+        }
         RebelModel rebel = new RebelModel();
         rebel.setName(rebelDTO.getName());
         rebel.setAge(rebelDTO.getAge());

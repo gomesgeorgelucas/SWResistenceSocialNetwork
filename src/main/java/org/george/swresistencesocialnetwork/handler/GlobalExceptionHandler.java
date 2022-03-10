@@ -3,6 +3,7 @@ package org.george.swresistencesocialnetwork.handler;
 import org.george.swresistencesocialnetwork.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Error> handleInvalidList(){
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Invalid list.", "Error"));
     }
+    @ExceptionHandler({InvalidRequestException.class, })
+    public ResponseEntity<Error> handleInvalidRequest(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Invalid Request.", "Error"));
+    }
 
     @ExceptionHandler({MismatchedTradeException.class, })
     public ResponseEntity<Error> handleMismatchedTrade(){
@@ -43,6 +48,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({UnknownLocationException.class, })
     public ResponseEntity<Error> handleUnknownLocation(){
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Unknown location. Check maps.", "Access denied"));
+    }
+
+    @ExceptionHandler({HttpMessageNotReadableException.class, })
+    public ResponseEntity<Error> handleHttpMessageNotReadable(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Invalid request. Malformed JSON.", "Error"));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

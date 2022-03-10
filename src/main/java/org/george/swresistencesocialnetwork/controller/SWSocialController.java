@@ -3,6 +3,7 @@ package org.george.swresistencesocialnetwork.controller;
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.*;
 import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.exception.InvalidRequestException;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.service.RebelService;
 import org.george.swresistencesocialnetwork.service.ReportService;
@@ -25,12 +26,17 @@ public class SWSocialController {
     @Autowired
     ReportService reportService;
 
-    //TODO - Jsonnullable Etc JsonIgnor etc
-
     @PostMapping("/addRebel")
     public ResponseEntity<RebelDTO> addRebel(@Valid @RequestBody RebelDTO rebelDTO) {
-        rebelService.addRebel(rebelDTO);
-        return new ResponseEntity<>(rebelDTO, HttpStatus.CREATED);
+        if (rebelDTO == null) {
+            throw new InvalidRequestException();
+        }
+        try {
+            rebelService.addRebel(rebelDTO);
+            return new ResponseEntity<>(rebelDTO, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(rebelDTO, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/updateLocation/{id}")
