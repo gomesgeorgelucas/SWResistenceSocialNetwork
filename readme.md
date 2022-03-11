@@ -46,7 +46,9 @@
 - Java 17
   - Gradle
   - Lombok
-  - JUnit
+  - Redis Cache
+  - Mockito
+  - Thymeleaf
   - SpringBoot (2.6.4)
     - H2
     - Data JPA
