@@ -2,6 +2,11 @@ package org.george.swresistencesocialnetwork.dto;
 
 import lombok.*;
 
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Getter
@@ -10,8 +15,15 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TradeDTO {
+    @NotNull
+    @Min(0)
     Long firstRebelId;
-    Collection<ItemDTO> firstRebelItems;
+    @NotEmpty(message = "Input firstRebelItems cannot be empty.")
+    Collection<@Valid ItemDTO> firstRebelItems;
+    @NotNull
+    @Min(0)
     Long secondRebelId;
-    Collection<ItemDTO> secondRebelItems;
+    @NotNull
+    @NotEmpty(message = "Input secondRebelItems cannot be empty.")
+    Collection<@Valid ItemDTO> secondRebelItems;
 }

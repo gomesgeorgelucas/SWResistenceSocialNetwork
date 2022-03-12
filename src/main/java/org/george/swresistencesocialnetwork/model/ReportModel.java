@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ReportModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     Long suspectId;
 
     @ElementCollection
