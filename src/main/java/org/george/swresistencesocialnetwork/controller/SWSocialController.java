@@ -41,6 +41,10 @@ public class SWSocialController {
 
     @PutMapping("/updateLocation/{id}")
     public ResponseEntity<RebelDTO> updateLocation(@PathVariable Long id, @Valid @RequestBody LocationDTO updateLocationDTO) {
+        if (id == null || updateLocationDTO == null) {
+            throw new InvalidRequestException();
+        }
+
         RebelModel rebel = rebelService.updateLocation(id, updateLocationDTO);
         RebelDTO rebelDTO = RebelDTO.builder()
                 .name(rebel.getName())
@@ -59,6 +63,9 @@ public class SWSocialController {
 
     @PostMapping("/reportSuspect")
     public ResponseEntity<ReportDTO> reportSuspect(@Valid @RequestBody ReportDTO reportDTO) {
+        if (reportDTO == null) {
+            throw new InvalidRequestException();
+        }
         RebelModel suspect = rebelService.getRebel(reportDTO.getSuspectId());
         RebelModel accuser = rebelService.getRebel(reportDTO.getAccuserId());
         if (Objects.equals(suspect.getId(), accuser.getId())) {
@@ -69,10 +76,15 @@ public class SWSocialController {
     }
 
     @PostMapping("/trade")
-    public ResponseEntity<TradeDTO> trade(@Valid @RequestBody TradeDTO tradeDTO) {
+    public ResponseEntity<@Valid TradeDTO> trade(@Valid @RequestBody TradeDTO tradeDTO) {
+        if (tradeDTO == null) {
+            throw new InvalidRequestException();
+        }
+
         if (tryTrade(tradeDTO)) {
             return new ResponseEntity<>(tradeDTO, HttpStatus.OK);
         }
+
         return new ResponseEntity<>(tradeDTO, HttpStatus.BAD_REQUEST);
     }
 
@@ -82,30 +94,42 @@ public class SWSocialController {
      * @return true or false
      */
     private boolean tryTrade(TradeDTO tradeDTO) {
-        if (
-                isBlocked(tradeDTO.getFirstRebelId())
-                        || isBlocked(tradeDTO.getSecondRebelId())
-        ) {
-            return false;
-        }
+        try {
+            if (
+                    isBlocked(tradeDTO.getFirstRebelId())
+                            || isBlocked(tradeDTO.getSecondRebelId())
+            ) {
+                return false;
+            }
+        } catch (Exception ignored) {}
 
-        if (
-                isListInvalid(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems())
-                        || isListInvalid(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems())
-        ) {
-            return false;
-        }
+        try {
+            if (
+                    isListInvalid(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems())
+                            || isListInvalid(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems())
+            ) {
+                return false;
+            }
+        } catch (Exception ignored) {}
 
-        if (!getPoints(tradeDTO.getFirstRebelItems()).equals(getPoints(tradeDTO.getSecondRebelItems()))) {
-             return false;
-        }
+        try {
+            if (!getPoints(tradeDTO.getFirstRebelItems()).equals(getPoints(tradeDTO.getSecondRebelItems()))) {
+                return false;
+            }
+        } catch (Exception ignored) {}
 
-        doTrade(tradeDTO);
+        try {
+            doTrade(tradeDTO);
+            return true;
+        } catch (Exception ignored) {}
 
-        return true;
+        return false;
     }
 
     public void doTrade(TradeDTO tradeDTO) {
+        if (tradeDTO == null) {
+            throw new NullPointerException();
+        }
         rebelService.updateInventory(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems(), tradeDTO.getSecondRebelItems());
         rebelService.updateInventory(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems(), tradeDTO.getFirstRebelItems());
     }
