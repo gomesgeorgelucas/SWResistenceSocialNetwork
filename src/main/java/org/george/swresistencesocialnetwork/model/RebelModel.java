@@ -18,25 +18,17 @@ public class RebelModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotBlank(message = "Name is mandatory")
     @NotNull
     String name;
-    @Min(0)
     @NotNull
     Integer age;
-    @NotBlank(message = "Gender is mandatory")
     @NotNull
     String gender;
-    @DecimalMin(value = "-90.00")
-    @DecimalMin(value = "90.00")
     @NotNull
     Double latitude;
-    @DecimalMin(value = "-180.00")
-    @DecimalMin(value = "180.00")
     @NotNull
     Double longitude;
-    @Min(0)
-    @Max(19)
+
     @NotNull
     BaseEnum base;
     @ElementCollection

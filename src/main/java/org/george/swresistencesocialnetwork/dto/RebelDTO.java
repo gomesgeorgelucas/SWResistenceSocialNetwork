@@ -21,15 +21,13 @@ public class RebelDTO {
     @NotBlank(message = "Gender is mandatory")
     String gender;
     @DecimalMin(value = "-90.00")
-    @DecimalMin(value = "90.00")
+    @DecimalMax(value = "90.00")
     @NotNull
     Double latitude;
     @DecimalMin(value = "-180.00")
-    @DecimalMin(value = "180.00")
+    @DecimalMax(value = "180.00")
     @NotNull
     Double longitude;
-    @Min(0)
-    @Max(19)
     @NotNull
     BaseEnum base;
 

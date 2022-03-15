@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.RebelDTO;
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
+import org.george.swresistencesocialnetwork.dto.RecordDTO;
 import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.exception.InvalidRequestException;
 import org.george.swresistencesocialnetwork.model.RebelModel;
