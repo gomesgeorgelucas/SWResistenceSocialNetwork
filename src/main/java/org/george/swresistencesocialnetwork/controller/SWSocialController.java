@@ -22,9 +22,9 @@ import java.util.Objects;
 @AllArgsConstructor
 public class SWSocialController {
     @Autowired
-    RebelService rebelService;
+    final RebelService rebelService;
     @Autowired
-    ReportService reportService;
+    final ReportService reportService;
 
     @PostMapping("/addRebel")
     public ResponseEntity<RebelDTO> addRebel(@Valid @RequestBody RebelDTO rebelDTO) {

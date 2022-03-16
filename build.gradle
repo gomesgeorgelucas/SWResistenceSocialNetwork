@@ -13,14 +13,13 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok:1.18.22'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.2'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    implementation 'org.assertj:assertj-core:3.22.0'
-    implementation 'org.assertj:assertj-core-java8:1.0.0m1'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'

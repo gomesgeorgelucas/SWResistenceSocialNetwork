@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SW Resistence Social Network Records</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/styles/style.css}" rel="stylesheet">
+</head>
+<body>
+<h1>SW Resistence Social Network Records</h1>
+<div th:switch="${records}">
+    <h2 th:case="null">No records yet!</h2>
+    <div th:case="*">
+        <h2>Records</h2>
+        <div class="flex-container">
+            <div class="flex-child">
+                <h3>Percentage of traitors</h3>
+                <p th:text="${#numbers.formatDecimal(records.traitorsPercentage,1,2)} + '%'"></p>
+            </div>
+            <div class="flex-child">
+                <h3>Percentage of rebels</h3>
+                <p th:text="${#numbers.formatDecimal(records.rebelsPercentage,1,2)} + '%'"></p>
+            </div>
+            <div class="flex-child">
+                <h3>Average resources per rebel</h3>
+                <h4>Weapons</h4>
+                <p th:text="${#numbers.formatDecimal(records.averageResourcesPerRebel.toArray()[0],1,2)} + ' per rebel'"></p>
+                <h4>Ammo</h4>
+                <p th:text="${#numbers.formatDecimal(records.averageResourcesPerRebel.toArray()[1],1,2)} + ' per rebel'"></p>
+                <h4>Water</h4>
+                <p th:text="${#numbers.formatDecimal(records.averageResourcesPerRebel.toArray()[2],1,2)} + ' per rebel'"></p>
+                <h4>Food</h4>
+                <p th:text="${#numbers.formatDecimal(records.averageResourcesPerRebel.toArray()[3],1,2)} + ' per rebel'"></p>
+            </div>
+            <div class="flex-child">
+                <h3>Lost points due to traitors</h3>
+                <p th:text="${records.lostPointsDueToTraitors} + ' points'"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

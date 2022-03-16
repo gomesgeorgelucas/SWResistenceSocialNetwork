@@ -4,27 +4,22 @@ import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.RecordDTO;
 import org.george.swresistencesocialnetwork.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/swapi/records")
 @AllArgsConstructor
-public class RecordController {
+public class RecordViewController {
     @Autowired
     final RecordService recordService;
 
-    @GetMapping("/")
-    public ResponseEntity<RecordDTO> getRecords() {
-        if (recordService.getRecords() == null) {
-            return new ResponseEntity<>(new RecordDTO(), HttpStatus.NOT_FOUND);
-        }
-
+    @GetMapping("/showRecords")
+    public String showRecords(Model model) {
         RecordDTO records = recordService.getRecords();
-
-        return new ResponseEntity<>(records, HttpStatus.OK);
+        model.addAttribute("records", records);
+        return "showRecords";
     }
 }

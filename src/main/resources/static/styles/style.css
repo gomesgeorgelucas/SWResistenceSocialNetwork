@@ -1,0 +1,10 @@
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 5px solid black;
+    margin-right: 2px;
+    padding: 5px;
+}

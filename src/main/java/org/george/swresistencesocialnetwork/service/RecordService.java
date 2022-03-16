@@ -10,6 +10,7 @@ import org.george.swresistencesocialnetwork.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,10 +18,13 @@ import java.util.Collection;
 @Service
 @AllArgsConstructor
 public class RecordService {
+
     @Autowired
     final RebelRepository rebelRepository;
     @Autowired
     final ReportRepository reportRepository;
+
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     public RecordDTO getRecords() {
         return RecordDTO.builder()
