@@ -41,6 +41,7 @@ public class RebelServiceTest extends AbstractUnitTest {
     }
 
     static RebelModel createRebelModel() {
+        //cmmt
         return RebelModel.builder()
                 .id(1L)
                 .name("RebelTest")
