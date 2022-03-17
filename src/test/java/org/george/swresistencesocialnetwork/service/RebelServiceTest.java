@@ -37,7 +37,7 @@ public class RebelServiceTest extends AbstractUnitTest {
     @Test
     void persistRebel() {
         rebelService.addRebel(RebelMapper.rebelModelToRebelDTO(createRebelModel()));
-        Assertions.assertEquals(rebelRepository.existsById(1L), true);
+        Assertions.assertEquals(rebelRepository.findById(1L).isPresent(), true);
     }
 
     static RebelModel createRebelModel() {

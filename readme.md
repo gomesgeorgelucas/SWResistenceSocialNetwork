@@ -1,5 +1,11 @@
 ## Star Wars Resistence Social Network
 
+DOCS:
+```
+http://localhost:8080/v3/api-docs
+http://localhost:8080/swagger-ui.html
+```
+
 #### API REST
 - [ ] Adicionar rebeldes
   - nome, idade, gênero, localização (latitude, longitude e nome, na galáxia, da base ao qual faz parte).
@@ -46,9 +52,10 @@
 - Java 17
   - Gradle
   - Lombok
-  - Redis Cache
+  - [ ] Redis Cache
   - Mockito
   - Thymeleaf
+  - OpenAPI
   - SpringBoot (2.6.4)
     - H2
     - Data JPA
