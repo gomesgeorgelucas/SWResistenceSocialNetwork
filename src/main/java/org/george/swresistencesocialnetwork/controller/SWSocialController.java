@@ -2,8 +2,8 @@ package org.george.swresistencesocialnetwork.controller;
 
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.*;
-import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.exception.InvalidRequestException;
+import org.george.swresistencesocialnetwork.mappers.ItemMapper;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.service.RebelService;
 import org.george.swresistencesocialnetwork.service.ReportService;
@@ -165,18 +165,6 @@ public class SWSocialController {
      * @return true or false
      */
     private boolean isListInvalid(Long id, Collection<ItemDTO> itemsList) {
-        return !rebelService.getRebel(id).getInventory().containsAll(itemDTOToItemTypeEnum(itemsList));
+        return !rebelService.getRebel(id).getInventory().containsAll(ItemMapper.itemDTOToItemTypeEnum(itemsList));
     }
-
-    private Collection<ItemTypeEnum> itemDTOToItemTypeEnum(Collection<ItemDTO> itemDTOList) {
-        Collection<ItemTypeEnum> itemTypeEnums = new ArrayList<>();
-        for (ItemDTO item: itemDTOList) {
-            itemTypeEnums.add(item.getItemType());
-        }
-
-        return itemTypeEnums;
-    }
-
-
-
 }
