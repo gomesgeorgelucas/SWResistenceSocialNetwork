@@ -2,7 +2,7 @@ package org.george.swresistencesocialnetwork.service;
 
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.RecordDTO;
-import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.model.ReportModel;
 import org.george.swresistencesocialnetwork.repository.RebelRepository;

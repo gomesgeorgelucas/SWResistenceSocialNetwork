@@ -1,23 +1,16 @@
 package org.george.swresistencesocialnetwork.service;
 
 import lombok.AllArgsConstructor;
-import org.george.swresistencesocialnetwork.dto.ItemDTO;
-import org.george.swresistencesocialnetwork.dto.RebelDTO;
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
-import org.george.swresistencesocialnetwork.enums.BaseEnum;
-import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.exception.InvalidListException;
 import org.george.swresistencesocialnetwork.exception.InvalidRequestException;
 import org.george.swresistencesocialnetwork.exception.RebelNotFoundException;
-import org.george.swresistencesocialnetwork.mappers.ItemMapper;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.george.swresistencesocialnetwork.repository.RebelRepository;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
 package org.george.swresistencesocialnetwork.utils;
 
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
-import org.george.swresistencesocialnetwork.enums.BaseEnum;
+import org.george.swresistencesocialnetwork.exception.enums.BaseEnum;
 
 public class LocationUtil {
     public static LocationDTO createLocation() {

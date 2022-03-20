@@ -1,6 +1,6 @@
 package org.george.swresistencesocialnetwork.utils;
 
-import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
 
 import java.util.Arrays;
 import java.util.Collection;;

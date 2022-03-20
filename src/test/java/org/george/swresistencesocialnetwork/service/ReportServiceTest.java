@@ -14,10 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ReportServiceTest {
 
     @InjectMocks
@@ -70,8 +73,8 @@ public class ReportServiceTest {
     @Test
     void traitorCannotBeAccuser() {
         Mockito.when(rebelRepository.findById(1L)).thenReturn(Optional.of(RebelUtil.createRebelModel(1L)));
-        //Mockito.when(rebelRepository.findById(2L)).thenReturn(Optional.of(RebelUtil.createRebelModel(2L)));
-        Mockito.when(reportRepository.getById(1L)).thenReturn(ReportUtil.createTraitor(1L));
+        Mockito.when(rebelRepository.findById(2L)).thenReturn(Optional.of(RebelUtil.createRebelModel(2L)));
+        Mockito.when(reportRepository.findById(2L)).thenReturn(Optional.of(ReportUtil.createTraitor(2L)));
         Assertions.assertThatThrownBy(() -> {
             reportService.report(ReportDTO.builder()
                             .suspectId(1L)
@@ -86,7 +89,4 @@ public class ReportServiceTest {
     void duplicateReportShouldFail() {
 
     }
-
-    void lessThanThreeAccusationsIsNotBlocked() {}
-    void threeOrMoreAccusationsBlocksRebel() {}
 }
