@@ -1,10 +1,8 @@
-package org.george.swresistencesocialnetwork.Utils;
+package org.george.swresistencesocialnetwork.utils;
 
 import org.george.swresistencesocialnetwork.enums.BaseEnum;
-import org.george.swresistencesocialnetwork.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class RebelUtil {

@@ -1,6 +1,10 @@
 package org.george.swresistencesocialnetwork.controller;
 
-public class SWSocialControllerTest {
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class RebelControllerTest {
     void addRebel() {}
     void addRebelShouldFailMissingAnyParameters() {}
     void cannotAddRebelWithNullInventory() {}
@@ -17,4 +21,19 @@ public class SWSocialControllerTest {
     void cannotTradeWithSelf() {}
     void unbalancedTradeShouldFail() {}
 
+    @BeforeEach
+    void setUp() {
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @Test
+    void testAddRebel() {
+    }
+
+    @Test
+    void testUpdateLocation() {
+    }
 }

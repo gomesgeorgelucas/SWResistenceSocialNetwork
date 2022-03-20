@@ -4,10 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecordViewControllerTest {
-    void generateView() {}
-    void nullRecordsShouldDisplayMessage() {}
-    void checkRoundingOfNumbers() {}
+import static org.junit.jupiter.api.Assertions.*;
+
+class TradeControllerTest {
 
     @BeforeEach
     void setUp() {
@@ -18,6 +17,6 @@ public class RecordViewControllerTest {
     }
 
     @Test
-    void showRecords() {
+    void trade() {
     }
 }

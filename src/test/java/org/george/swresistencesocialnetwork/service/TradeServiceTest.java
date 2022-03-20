@@ -1,11 +1,12 @@
-package org.george.swresistencesocialnetwork.controller;
+package org.george.swresistencesocialnetwork.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecordControllerTest {
-    void generateRecordJson() {}
+import static org.junit.jupiter.api.Assertions.*;
+
+class TradeServiceTest {
 
     @BeforeEach
     void setUp() {
@@ -16,6 +17,10 @@ public class RecordControllerTest {
     }
 
     @Test
-    void getRecords() {
+    void trade() {
+    }
+
+    @Test
+    void doTrade() {
     }
 }
