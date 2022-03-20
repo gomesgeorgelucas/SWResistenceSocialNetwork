@@ -23,7 +23,7 @@ public class TradeController {
     final TradeService tradeService;
 
     @PostMapping("/trade")
-    public ResponseEntity<@Valid TradeDTO> trade(@Valid @RequestBody TradeDTO tradeDTO) {
+    public ResponseEntity<String> trade(@Valid @RequestBody TradeDTO tradeDTO) {
         if (tradeDTO == null) {
             throw new InvalidRequestException();
         }

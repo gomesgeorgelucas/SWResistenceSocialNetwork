@@ -6,6 +6,7 @@ import org.george.swresistencesocialnetwork.dto.TradeDTO;
 import org.george.swresistencesocialnetwork.mappers.ItemMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Service
@@ -14,8 +15,9 @@ public class TradeService {
     final RebelService rebelService;
     final ReportService reportService;
 
-    public TradeDTO trade(TradeDTO tradeDTO) {
-        return tryTrade(tradeDTO) ? tradeDTO : null;
+    @Transactional
+    public String trade(TradeDTO tradeDTO) {
+        return tryTrade(tradeDTO) ? "Trade successful." : "Trade failed.";
     }
 
     /**
@@ -49,19 +51,23 @@ public class TradeService {
         } catch (Exception ignored) {}
 
         try {
-            doTrade(tradeDTO);
-            return true;
+            return doTrade(tradeDTO);
         } catch (Exception ignored) {}
 
         return false;
     }
 
-    public void doTrade(TradeDTO tradeDTO) {
+    private boolean doTrade(TradeDTO tradeDTO) {
         if (tradeDTO == null) {
             throw new NullPointerException();
         }
-        rebelService.updateInventory(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems(), tradeDTO.getSecondRebelItems());
-        rebelService.updateInventory(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems(), tradeDTO.getFirstRebelItems());
+
+        return rebelService.updateInventory(tradeDTO.getFirstRebelId(),
+                ItemMapper.itemDTOToItemTypeEnum(tradeDTO.getFirstRebelItems()),
+                ItemMapper.itemDTOToItemTypeEnum(tradeDTO.getSecondRebelItems()))
+                && rebelService.updateInventory(tradeDTO.getSecondRebelId(),
+                ItemMapper.itemDTOToItemTypeEnum(tradeDTO.getSecondRebelItems()),
+                ItemMapper.itemDTOToItemTypeEnum(tradeDTO.getFirstRebelItems()));
     }
 
     /**
