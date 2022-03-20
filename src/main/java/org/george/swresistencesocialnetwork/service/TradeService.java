@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +27,10 @@ public class TradeService {
      * @return true or false
      */
     private boolean tryTrade(TradeDTO tradeDTO) {
+        if (Objects.equals(tradeDTO.getFirstRebelId(), tradeDTO.getSecondRebelId())) {
+            return false;
+        }
+
         try {
             if (
                     reportService.isBlocked(tradeDTO.getFirstRebelId())

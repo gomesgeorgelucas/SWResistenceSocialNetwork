@@ -11,7 +11,7 @@ public class RebelMapper {
                 .age(rebelDTO.getAge())
                 .gender(rebelDTO.getGender())
                 .latitude(rebelDTO.getLatitude())
-                .longitude(rebelDTO.getLatitude())
+                .longitude(rebelDTO.getLongitude())
                 .base(rebelDTO.getBase())
                 .inventory(ItemMapper.itemDTOToItemTypeEnum(rebelDTO.getInventory()))
                 .build();

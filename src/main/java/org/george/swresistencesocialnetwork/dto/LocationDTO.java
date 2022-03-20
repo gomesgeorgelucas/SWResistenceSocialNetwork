@@ -19,6 +19,6 @@ public class LocationDTO {
     @DecimalMax(value = "180.00")
     @NotNull
     Double longitude;
-    @NotEmpty
+    @NotNull
     BaseEnum base;
 }

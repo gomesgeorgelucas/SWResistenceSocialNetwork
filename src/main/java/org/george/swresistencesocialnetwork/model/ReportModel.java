@@ -19,7 +19,5 @@ public class ReportModel {
     Long suspectId;
 
     @ElementCollection
-    @NotNull
-    @Setter(AccessLevel.NONE)
     Set<Long> accusers;
 }
