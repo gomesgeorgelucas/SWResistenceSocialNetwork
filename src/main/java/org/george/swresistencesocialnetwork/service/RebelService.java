@@ -23,6 +23,8 @@ public class RebelService {
     public RebelModel addRebel(RebelModel rebel) {
         if (rebel == null) {
             throw new InvalidRequestException();
+        } else if (rebel.getId() != null) {
+            throw new InvalidRequestException();
         }
 
         return rebelRepository.save(rebel);

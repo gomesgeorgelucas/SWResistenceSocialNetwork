@@ -1,8 +1,6 @@
 package org.george.swresistencesocialnetwork.model;
 
-import org.george.swresistencesocialnetwork.AbstractUnitTest;
-
-public class ReportModelTest extends AbstractUnitTest {
+public class ReportModelTest {
     void reportSuspect() {}
     void reportWithoutAccuserMustFail() {}
     void accusersMustBeUnique() {}
