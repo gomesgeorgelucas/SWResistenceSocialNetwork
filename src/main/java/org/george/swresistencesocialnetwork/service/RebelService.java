@@ -20,22 +20,9 @@ public class RebelService {
     @Autowired
     final RebelRepository rebelRepository;
 
-    public RebelModel addRebel(RebelDTO rebelDTO) {
-        if (rebelDTO == null) {
+    public RebelModel addRebel(RebelModel rebel) {
+        if (rebel == null) {
             throw new InvalidRequestException();
-        }
-        RebelModel rebel = new RebelModel();
-        rebel.setName(rebelDTO.getName());
-        rebel.setAge(rebelDTO.getAge());
-        rebel.setGender(rebelDTO.getGender());
-        rebel.setLatitude(rebelDTO.getLatitude());
-        rebel.setLongitude(rebelDTO.getLongitude());
-        rebel.setBase(rebelDTO.getBase());
-
-        rebel.setInventory(new ArrayList<>());
-
-        for (ItemDTO itemDTO : rebelDTO.getInventory()) {
-            rebel.getInventory().add(itemDTO.getItemType());
         }
 
         return rebelRepository.save(rebel);

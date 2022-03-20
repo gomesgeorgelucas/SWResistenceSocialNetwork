@@ -25,6 +25,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Error> handleInvalidList(){
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Invalid list.", "Error"));
     }
+
+    @ExceptionHandler({InvalidReportException.class, })
+    public ResponseEntity<Error> handleInvalidReport(){
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Invalid report. Check data.", "Error"));
+    }
+
     @ExceptionHandler({InvalidRequestException.class, })
     public ResponseEntity<Error> handleInvalidRequest(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Invalid Request.", "Error"));
@@ -32,22 +38,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({MismatchedTradeException.class, })
     public ResponseEntity<Error> handleMismatchedTrade(){
-        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Mismatched trade. Check points table.", "Access denied"));
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Mismatched trade. Check points table.", "Error"));
     }
 
     @ExceptionHandler({RebelNotFoundException.class, })
     public ResponseEntity<Error> handleRebelNotFound(){
-        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Rebel not found.", "Access denied"));
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Rebel not found.", "Error"));
     }
 
     @ExceptionHandler({TradeBlockedException.class, })
     public ResponseEntity<Error> handleTradeBlocked(){
-        return  ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Error("Trade not available.", "Access denied"));
+        return  ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Error("Trade not available.", "Error"));
     }
 
     @ExceptionHandler({UnknownLocationException.class, })
     public ResponseEntity<Error> handleUnknownLocation(){
-        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Unknown location. Check maps.", "Access denied"));
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error("Unknown location. Check maps.", "Error"));
     }
 
     @ExceptionHandler({HttpMessageNotReadableException.class, })
