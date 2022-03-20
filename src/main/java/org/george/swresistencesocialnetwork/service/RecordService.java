@@ -35,7 +35,7 @@ public class RecordService {
                 .build();
     }
 
-    private Double calculateTraitorsPercentage() {
+    public Double calculateTraitorsPercentage() {
         double numberOfRebels = rebelRepository.count();
         if (numberOfRebels == 0) {
             return 0.0;
@@ -52,7 +52,7 @@ public class RecordService {
         return percentage;
     }
 
-    private Double calculateRebelsPercentage() {
+    public Double calculateRebelsPercentage() {
         if (rebelRepository.count() == 0) {
             return 0.0;
         }
@@ -60,7 +60,7 @@ public class RecordService {
         return 100.0 - calculateTraitorsPercentage();
     }
 
-    private Long getTraitorCount() {
+    public Long getTraitorCount() {
         Collection<ReportModel> suspects = reportRepository.findAll();
         long numberOfTraitors = 0;
         for (ReportModel report : suspects) {
@@ -72,10 +72,7 @@ public class RecordService {
         return numberOfTraitors;
     }
 
-    /*
-    TODO - Change foreach to streams Collector
-     */
-    private Collection<Double> calculateAverageResourcesPerRebel() {
+    public Collection<Double> calculateAverageResourcesPerRebel() {
         double weaponCount = 0.0;
         double ammoCount = 0.0;
         double waterCount = 0.0;
@@ -125,7 +122,7 @@ public class RecordService {
         return averageResourcesPerRebel;
     }
 
-    private Long calculateLostPointsDueToTraitors() {
+    public Long calculateLostPointsDueToTraitors() {
         long lostPoints = 0;
 
         Collection<ReportModel> reports = reportRepository.findAll();

@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Builder
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +20,6 @@ public class ReportModel {
 
     @ElementCollection
     @NotNull
-    Set<Long> accusers = new HashSet<>();
+    @Setter(AccessLevel.NONE)
+    Set<Long> accusers;
 }
