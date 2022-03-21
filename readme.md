@@ -12,7 +12,16 @@ http://localhost:8080/swapi/records (JSON)
 http://localhost:8080/swapi/records/showRecords (Thymeleaf)
 ```
 
-
+**Detalhes**
+  O inventário do rebeldes deve ser informado item a item, a funcionalidade de quantidade não foi implementada.
+  Toda a interface da API está descrita no api-docs ou swagger-ui.
+#####TODO
+  - [ ] Add item quantity functionality. 
+  - [ ] Finish integration testing
+  - [ ] Finish data/persistente testing with DataJpaTesting
+  - [ ] Add Redis Cache
+  - [ ] Add JWT Auth
+  - [ ] Improve unit/data testing with Test Containers
 #### API REST
 - [x] Adicionar rebeldes
   - nome, idade, gênero, localização (latitude, longitude e nome, na galáxia, da base ao qual faz parte).
@@ -60,7 +69,7 @@ http://localhost:8080/swapi/records/showRecords (Thymeleaf)
   - Gradle
   - Lombok
   - [ ] Redis Cache
-  - Mockito
+  - Mockito/JUnit 5
   - Thymeleaf
   - OpenAPI
   - SpringBoot (2.6.4)
