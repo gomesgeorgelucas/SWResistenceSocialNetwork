@@ -5,8 +5,8 @@ import org.george.swresistencesocialnetwork.model.ReportModel;
 import java.util.*;
 
 public class ReportUtil {
-    public static Collection<ReportModel> createTraitorReports() {
-        Collection<ReportModel> reports = new ArrayList<>();
+    public static List<ReportModel> createTraitorReports() {
+        List<ReportModel> reports = new ArrayList<>();
         reports.add(createTraitor(1L));
         reports.add(createTraitor(5L));
         reports.add(createTraitor(9L));

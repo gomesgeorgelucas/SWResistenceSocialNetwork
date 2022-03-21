@@ -29,7 +29,7 @@ public class RebelUtil {
                 .latitude(0.0)
                 .longitude(0.0)
                 .base(BaseEnum.ATOLLON)
-                .inventory(Collections.emptyList())
+                .inventory(InventoryUtil.createInventory())
                 .build();
     }
 

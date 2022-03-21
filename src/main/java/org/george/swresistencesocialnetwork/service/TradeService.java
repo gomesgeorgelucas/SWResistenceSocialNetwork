@@ -3,12 +3,16 @@ package org.george.swresistencesocialnetwork.service;
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.TradeDTO;
+import org.george.swresistencesocialnetwork.exception.*;
+import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.mappers.ItemMapper;
+import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,43 +30,35 @@ public class TradeService {
      * @param tradeDTO DTO containing transaction data.
      * @return true or false
      */
-    private boolean tryTrade(TradeDTO tradeDTO) {
+    public boolean tryTrade(TradeDTO tradeDTO) {
         if (Objects.equals(tradeDTO.getFirstRebelId(), tradeDTO.getSecondRebelId())) {
-            return false;
+            throw new InvalidRequestException();
         }
 
-        try {
-            if (
-                    reportService.isBlocked(tradeDTO.getFirstRebelId())
-                            || reportService.isBlocked(tradeDTO.getSecondRebelId())
-            ) {
-                return false;
-            }
-        } catch (Exception ignored) {}
 
-        try {
-            if (
-                    isListInvalid(tradeDTO.getFirstRebelId(), tradeDTO.getFirstRebelItems())
-                            || isListInvalid(tradeDTO.getSecondRebelId(), tradeDTO.getSecondRebelItems())
-            ) {
-                return false;
-            }
-        } catch (Exception ignored) {}
+        if (
+                reportService.isBlocked(tradeDTO.getFirstRebelId())
+                        || reportService.isBlocked(tradeDTO.getSecondRebelId())
+        ) {
+            throw new TradeBlockedException();
+        }
 
-        try {
-            if (!getPoints(tradeDTO.getFirstRebelItems()).equals(getPoints(tradeDTO.getSecondRebelItems()))) {
-                return false;
-            }
-        } catch (Exception ignored) {}
+        if (
+                isListInvalid(tradeDTO.getFirstRebelId(), ItemMapper.itemDTOToItemTypeEnum(tradeDTO.getFirstRebelItems()))
+                        || isListInvalid(tradeDTO.getSecondRebelId(), ItemMapper.itemDTOToItemTypeEnum(tradeDTO.getSecondRebelItems()))
+        ) {
+            throw new InvalidListException();
+        }
 
-        try {
-            return doTrade(tradeDTO);
-        } catch (Exception ignored) {}
 
-        return false;
+        if (!getPoints(tradeDTO.getFirstRebelItems()).equals(getPoints(tradeDTO.getSecondRebelItems()))) {
+            throw new MismatchedTradeException();
+        }
+
+        return doTrade(tradeDTO);
     }
 
-    private boolean doTrade(TradeDTO tradeDTO) {
+    public boolean doTrade(TradeDTO tradeDTO) {
         if (tradeDTO == null) {
             throw new NullPointerException();
         }
@@ -80,7 +76,7 @@ public class TradeService {
      * @param itemsList List of items (enum)
      * @return Integer value representing total amount.
      */
-    private Integer getPoints(Collection<ItemDTO> itemsList) {
+    public Integer getPoints(Collection<ItemDTO> itemsList) {
         Integer points = 0;
 
         for (ItemDTO item: itemsList) {
@@ -96,7 +92,13 @@ public class TradeService {
      * @param itemsList List of items to be exchanged
      * @return true or false
      */
-    private boolean isListInvalid(Long id, Collection<ItemDTO> itemsList) {
-        return !rebelService.getRebel(id).getInventory().containsAll(ItemMapper.itemDTOToItemTypeEnum(itemsList));
+    public boolean isListInvalid(Long id, Collection<ItemTypeEnum> itemsList) {
+        Optional<RebelModel> optional = Optional.ofNullable(rebelService.getRebel(id));
+
+        if (optional.isEmpty()) {
+            throw new RebelNotFoundException();
+        }
+
+        return !optional.get().getInventory().containsAll(itemsList);
     }
 }
