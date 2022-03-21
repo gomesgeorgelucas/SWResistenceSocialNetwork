@@ -6,6 +6,13 @@ http://localhost:8080/v3/api-docs
 http://localhost:8080/swagger-ui.html
 ```
 
+Reports:
+```
+http://localhost:8080/swapi/records (JSON)
+http://localhost:8080/swapi/records/showRecords (Thymeleaf)
+```
+
+
 #### API REST
 - [x] Adicionar rebeldes
   - nome, idade, gênero, localização (latitude, longitude e nome, na galáxia, da base ao qual faz parte).
