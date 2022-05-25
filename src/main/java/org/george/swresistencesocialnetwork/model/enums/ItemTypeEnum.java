@@ -1,4 +1,4 @@
-package org.george.swresistencesocialnetwork.exception.enums;
+package org.george.swresistencesocialnetwork.model.enums;
 
 public enum ItemTypeEnum {
     WEAPON ("Weapon", 4),

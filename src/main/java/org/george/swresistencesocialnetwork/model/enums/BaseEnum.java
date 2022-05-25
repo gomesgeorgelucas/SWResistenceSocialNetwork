@@ -1,4 +1,4 @@
-package org.george.swresistencesocialnetwork.exception.enums;
+package org.george.swresistencesocialnetwork.model.enums;
 
 public enum BaseEnum {
     ATOLLON ("Atollon – Chopper Base located on the Atollon Coral Mesa"),

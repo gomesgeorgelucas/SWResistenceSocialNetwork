@@ -1,7 +1,7 @@
 package org.george.swresistencesocialnetwork.mappers;
 
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
-import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.model.enums.ItemTypeEnum;
 
 import java.util.ArrayList;
 import java.util.Collection;

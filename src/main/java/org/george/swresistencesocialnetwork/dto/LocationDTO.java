@@ -1,7 +1,7 @@
 package org.george.swresistencesocialnetwork.dto;
 
 import lombok.*;
-import org.george.swresistencesocialnetwork.exception.enums.BaseEnum;
+import org.george.swresistencesocialnetwork.model.enums.BaseEnum;
 
 import javax.validation.constraints.*;
 

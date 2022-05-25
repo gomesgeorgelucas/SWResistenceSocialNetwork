@@ -1,8 +1,9 @@
 package org.george.swresistencesocialnetwork.service;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.LocationDTO;
-import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.model.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.exception.InvalidListException;
 import org.george.swresistencesocialnetwork.exception.InvalidRequestException;
 import org.george.swresistencesocialnetwork.exception.RebelNotFoundException;
@@ -20,6 +21,7 @@ public class RebelService {
     @Autowired
     final RebelRepository rebelRepository;
 
+    @Timed(value = "addRebel.time", description = "Time taken to return rebel")
     public RebelModel addRebel(RebelModel rebel) {
         if (rebel == null || rebel.getId() != null || rebel.getInventory() == null) {
             throw new InvalidRequestException();

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.george.swresistencesocialnetwork.dto.ItemDTO;
 import org.george.swresistencesocialnetwork.dto.TradeDTO;
 import org.george.swresistencesocialnetwork.exception.*;
-import org.george.swresistencesocialnetwork.exception.enums.ItemTypeEnum;
+import org.george.swresistencesocialnetwork.model.enums.ItemTypeEnum;
 import org.george.swresistencesocialnetwork.mappers.ItemMapper;
 import org.george.swresistencesocialnetwork.model.RebelModel;
 import org.springframework.stereotype.Service;
